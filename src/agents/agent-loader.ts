@@ -8,6 +8,24 @@ import { glob } from 'glob';
 import { resolve, dirname } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 
+// Legacy agent type mapping for backward compatibility
+const LEGACY_AGENT_MAPPING = {
+  analyst: 'code-analyzer',
+  coordinator: 'task-orchestrator', 
+  optimizer: 'perf-analyzer',
+  documenter: 'api-docs',
+  monitor: 'performance-benchmarker',
+  specialist: 'system-architect',
+  architect: 'system-architect',
+} as const;
+
+/**
+ * Resolve legacy agent types to current equivalents
+ */
+function resolveLegacyAgentType(legacyType: string): string {
+  return LEGACY_AGENT_MAPPING[legacyType as keyof typeof LEGACY_AGENT_MAPPING] || legacyType;
+}
+
 export interface AgentDefinition {
   name: string;
   type?: string;
@@ -163,7 +181,12 @@ class AgentLoader {
    */
   async getAvailableAgentTypes(): Promise<string[]> {
     await this.ensureLoaded();
-    return Array.from(this.agentCache.keys()).sort();
+    const currentTypes = Array.from(this.agentCache.keys());
+    const legacyTypes = Object.keys(LEGACY_AGENT_MAPPING);
+    // Return both current types and legacy types, removing duplicates
+    const combined = [...currentTypes, ...legacyTypes];
+    const uniqueTypes = Array.from(new Set(combined));
+    return uniqueTypes.sort();
   }
 
   /**
@@ -171,7 +194,8 @@ class AgentLoader {
    */
   async getAgent(name: string): Promise<AgentDefinition | null> {
     await this.ensureLoaded();
-    return this.agentCache.get(name) || null;
+    // First try the original name, then try the legacy mapping
+    return this.agentCache.get(name) || this.agentCache.get(resolveLegacyAgentType(name)) || null;
   }
 
   /**
@@ -212,7 +236,8 @@ class AgentLoader {
    */
   async isValidAgentType(name: string): Promise<boolean> {
     await this.ensureLoaded();
-    return this.agentCache.has(name);
+    // First try the original name, then try the legacy mapping
+    return this.agentCache.has(name) || this.agentCache.has(resolveLegacyAgentType(name));
   }
 
   /**
@@ -245,3 +270,6 @@ export const searchAgents = (query: string) => agentLoader.searchAgents(query);
 export const isValidAgentType = (name: string) => agentLoader.isValidAgentType(name);
 export const getAgentsByCategory = (category: string) => agentLoader.getAgentsByCategory(category);
 export const refreshAgents = () => agentLoader.refresh();
+
+// Export legacy mapping utilities
+export { resolveLegacyAgentType, LEGACY_AGENT_MAPPING };

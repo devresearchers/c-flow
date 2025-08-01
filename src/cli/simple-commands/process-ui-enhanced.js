@@ -1,4 +1,4 @@
-// process-ui-enhanced.js - Enhanced process management UI with multiple views - v2.0.0-alpha.81
+// process-ui-enhanced.js - Enhanced process management UI with multiple views - v2.0.0-alpha.83
 import { printSuccess, printError, printWarning, printInfo } from '../utils.js';
 import { compat } from '../runtime-detector.js';
 import SwarmWebUIIntegration from './swarm-webui-integration.js';

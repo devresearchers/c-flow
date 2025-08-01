@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-alpha.83] - 2025-02-01
+
+### 🔧 Bug Fixes
+- **Fixed CLAUDE.md Template Generation**: 
+  - Updated init command template to use correct agent names
+  - Replaced legacy agent names (analyst, coordinator, etc.) with proper mappings
+  - Ensures all generated CLAUDE.md files use valid agent types
+  - Fixes issue #557: "Agent type 'analyst' not found" error
+
+### 🛠️ Technical Improvements
+- **Agent Name Mapping**: Enhanced backward compatibility with legacy agent names
+- **Template Updates**: Updated 18 instances of agent names in CLAUDE.md template
+- **Agent Loader**: Maintains support for legacy names while using correct internal types
+
+### 📦 Package Notes
+- Package successfully published to npm with alpha tag
+- All agent definitions included (64 specialized agents)
+- TypeScript build warnings present but don't affect functionality
+
 ## [2.0.0-alpha.80] - 2025-01-30
 
 ### ✨ New Features

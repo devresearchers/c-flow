@@ -11,7 +11,7 @@ import { existsSync } from 'fs';
 import { spawn } from 'child_process';
 import process from 'process';
 
-const VERSION = "2.0.0-alpha.81";
+const VERSION = "2.0.0-alpha.83";
 
 // Get script directory and root directory
 const __filename = fileURLToPath(import.meta.url);
@@ -40,11 +40,29 @@ async function main() {
     if (existsSync(jsFile)) {
       const child = spawn('node', [jsFile, ...args], {
         stdio: 'inherit',
-        shell: false
+        shell: false,
+        detached: false  // Prevent orphaned processes
       });
+      
+      // Enhanced process cleanup for all platforms
+      const cleanup = () => {
+        if (!child.killed) {
+          child.kill('SIGTERM');
+          setTimeout(() => {
+            if (!child.killed) {
+              child.kill('SIGKILL');
+            }
+          }, 5000);
+        }
+      };
+      
+      process.on('SIGTERM', cleanup);
+      process.on('SIGINT', cleanup);
+      process.on('exit', cleanup);
       
       child.on('error', (error) => {
         console.error('❌ Node.js execution failed:', error.message);
+        cleanup();
         process.exit(1);
       });
       

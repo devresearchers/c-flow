@@ -15,6 +15,22 @@ import { memoryStore } from '../memory/fallback-store.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Legacy agent type mapping for backward compatibility
+const LEGACY_AGENT_MAPPING = {
+  analyst: 'code-analyzer',
+  coordinator: 'task-orchestrator', 
+  optimizer: 'perf-analyzer',
+  documenter: 'api-docs',
+  monitor: 'performance-benchmarker',
+  specialist: 'system-architect',
+  architect: 'system-architect',
+};
+
+// Resolve legacy agent types to current equivalents
+function resolveLegacyAgentType(legacyType) {
+  return LEGACY_AGENT_MAPPING[legacyType] || legacyType;
+}
+
 class ClaudeFlowMCPServer {
   constructor() {
     this.version = '2.0.0-alpha.59';
@@ -81,17 +97,26 @@ class ClaudeFlowMCPServer {
             type: {
               type: 'string',
               enum: [
+                // Legacy types (for backward compatibility)
                 'coordinator',
-                'researcher',
-                'coder',
                 'analyst',
-                'architect',
-                'tester',
-                'reviewer',
                 'optimizer',
                 'documenter',
                 'monitor',
                 'specialist',
+                'architect',
+                // Current types
+                'task-orchestrator',
+                'code-analyzer',
+                'perf-analyzer',
+                'api-docs',
+                'performance-benchmarker',
+                'system-architect',
+                // Core types
+                'researcher',
+                'coder',
+                'tester',
+                'reviewer',
               ],
             },
             name: { type: 'string' },
@@ -1074,11 +1099,12 @@ class ClaudeFlowMCPServer {
 
       case 'agent_spawn':
         const agentId = `agent_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+        const resolvedType = resolveLegacyAgentType(args.type);
         const agentData = {
           id: agentId,
           swarmId: args.swarmId || (await this.getActiveSwarmId()),
-          name: args.name || `${args.type}-${Date.now()}`,
-          type: args.type,
+          name: args.name || `${resolvedType}-${Date.now()}`,
+          type: resolvedType,
           status: 'active',
           capabilities: JSON.stringify(args.capabilities || []),
           metadata: JSON.stringify({

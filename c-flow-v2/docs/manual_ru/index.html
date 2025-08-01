@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>C‑Flow: Руководство для чайников</title>
+<style>
+body { font-family: sans-serif; margin: 2em; }
+section { margin-bottom: 3em; }
+.hint { color: gray; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<h1>C‑Flow: Руководство для чайников</h1>
+
+<section id="intro">
+<h2>Введение</h2>
+<p>Добро пожаловать в систему C‑Flow! Этот проект помогает организовывать работу ИИ‑агентов и автоматизировать разработку. Ниже вы узнаете, как начать.</p>
+<p class="hint" data-voice="intro">Добро пожаловать! Здесь мы научимся запускать C‑Flow и создавать свой первый рой.</p>
+</section>
+
+<section id="install">
+<h2>Установка</h2>
+<ol>
+<li>Убедитесь, что установлен Node.js версии 18 или выше.</li>
+<li>Выполните команду <code>npx claude-flow@alpha init --force</code> для инициализации.</li>
+</ol>
+<p class="hint" data-voice="install">Сначала установите Node.js и запустите команду инициализации. Это создаст нужные папки.</p>
+</section>
+
+<section id="usage">
+<h2>Быстрый старт</h2>
+<ol>
+<li>Запустите <code>npx claude-flow@alpha swarm "создай мне REST API"</code>.</li>
+<li>Дождитесь вывода результатов. Вы увидите отчёт о работе агентов.</li>
+</ol>
+<p class="hint" data-voice="usage">Используйте команду swarm, чтобы быстро получить результат. Агент всё сделает сам.</p>
+</section>
+
+<section id="gui">
+<h2>Графический интерфейс</h2>
+<p>В каталоге <code>c-flow-v2/gui</code> есть простое приложение на Python. Запустите его командой <code>python3 main.py</code>. Оно позволяет вводить команды и видеть вывод прямо в окне.</p>
+<p class="hint" data-voice="gui">GUI облегчает работу: просто введите команду и нажмите Run.</p>
+</section>
+
+<section id="help">
+<h2>Получение справки</h2>
+<p>Для списка всех команд выполните <code>claude-flow help</code> или смотрите файл <em>Commands Reference</em> в документации.</p>
+<p class="hint" data-voice="help">Всегда можно вызвать help, чтобы посмотреть доступные команды.</p>
+</section>
+
+<script>
+// Небольшой скрипт проигрывает озвучку, если рядом лежат mp3-файлы, созданные edge-tts.
+for (const p of document.querySelectorAll('[data-voice]')) {
+  const id = p.getAttribute('data-voice');
+  const audio = new Audio(id + '.mp3');
+  p.addEventListener('click', () => audio.play());
+}
+</script>
+</body>
+</html>

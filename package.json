@@ -1,6 +1,6 @@
 {
   "name": "claude-flow",
-  "version": "2.0.0-alpha.83",
+  "version": "2.0.0-alpha.87",
   "description": "Enterprise-grade AI agent orchestration with ruv-swarm integration (Alpha Release)",
   "main": "cli.mjs",
   "bin": {
@@ -93,7 +93,15 @@
   },
   "files": [
     "cli.js",
-    "bin/",
+    "bin/claude-flow.js",
+    "bin/claude-flow",
+    "bin/claude-flow-dev",
+    "bin/claude-flow-pkg.js",
+    "bin/claude-flow-swarm",
+    "bin/claude-flow-swarm-background",
+    "bin/claude-flow-swarm-bg",
+    "bin/claude-flow-swarm-monitor",
+    "bin/claude-flow-swarm-ui",
     "dist/",
     "src/",
     ".claude/",

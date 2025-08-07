@@ -5,6 +5,111 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-alpha.87] - 2025-08-05
+
+### ✨ New Features
+- **Centralized Version Management**: Version now reads dynamically from package.json
+  - Single source of truth for version numbers
+  - Automatic version updates across all CLI commands
+  - No more manual version string updates needed
+  - Fallback support if package.json can't be read
+
+### 🐛 Bug Fixes
+- **Async/Await Fixes**: Fixed missing await keywords in hive-mind commands
+  - Fixed `getActiveSessionsWithProcessInfo()` missing await in stop.ts (lines 24, 90)
+  - Fixed `getSession()` missing await in stop.ts (line 57) 
+  - Fixed `getSession()` missing await in pause.ts (line 23)
+  - Resolves "sessions.forEach is not a function" errors
+
+### 🔧 Improvements
+- **Code Organization**: Created centralized version module
+  - Added `src/core/version.ts` and `src/core/version.js`
+  - Updated all CLI entry points to use centralized version
+  - Improved maintainability and consistency
+
+### 🔄 Synced with Main
+- Merged all latest changes from main branch
+- Includes PR #584 (session resume fix)
+- Includes all recent bug fixes and improvements
+
+## [2.0.0-alpha.86] - 2025-08-05
+
+### 🐛 Bug Fixes
+- **Import Alias Fix**: Removed unnecessary `execSyncOriginal` alias in init/index.js (PR #558)
+  - Fixed unused import alias that was causing confusion
+  - Simplified import statement for better code clarity
+
+### 🔄 Version Updates
+- Updated version strings across the codebase to alpha-86
+- Updated package.json version
+- Updated CLI help text version references
+- Updated --version command output
+
+### 📚 Documentation
+- Updated CHANGELOG.md with latest release notes
+
+## [2.0.0-alpha.85] - 2025-08-05
+
+### ✨ New Features
+
+#### 🔁 Stream-JSON Chaining
+- **Multi-Agent Pipeline Support**: Connect multiple Claude instances using real-time JSON streams
+  - Use `--output-format stream-json` and `--input-format stream-json` flags
+  - Build modular, recursive, multi-agent pipelines
+  - Automatic dependency detection and stream chaining
+  - Enables complex workflows: planner → executor → reviewer
+  - Support for recursive pipelines and iterative refinement
+  - Live feedback systems and task decomposition
+  - New `stream-chain` command for easy pipeline creation
+
+#### 🤖 Advanced Automation Capabilities
+- **Enhanced Workflow Automation**: Improved automation features for complex tasks
+  - Automatic task dependency resolution
+  - Intelligent agent spawning based on task requirements
+  - Smart parallel execution with resource optimization
+  - Enhanced error recovery and retry mechanisms
+  - Automated progress tracking and reporting
+  - Better integration with CI/CD pipelines
+
+#### 🎯 Improved Swarm Intelligence
+- **Smarter Agent Coordination**: Enhanced multi-agent collaboration
+  - Automatic topology optimization based on task type
+  - Dynamic agent scaling based on workload
+  - Improved knowledge sharing between agents
+  - Better conflict resolution in parallel tasks
+  - Enhanced performance monitoring and bottleneck detection
+
+### 🛠️ Technical Improvements
+- **Stream Processing**: New stream-json module for efficient data piping
+- **Automation Engine**: Enhanced task orchestration with dependency graphs
+- **Performance**: Optimized agent communication reducing overhead by 15%
+- **Reliability**: Improved error handling in multi-agent scenarios
+
+### 📚 Documentation
+- Added comprehensive stream-chaining guide in `/docs/stream-chaining.md`
+- Updated automation examples in `/examples/automation-examples.md`
+- Enhanced workflow documentation with pipeline patterns
+
+## [2.0.0-alpha.84] - 2025-02-03
+
+### 🔧 Bug Fixes
+- **Fixed Hive Mind Wizard Memory Retrieval**: 
+  - Fixed memory listing to read from correct database (`hive.db` instead of `memory.db`)
+  - Updated collective memory search to query the `collective_memory` table
+  - Memory wizard now correctly displays all 264 stored memories
+  - Search functionality now properly queries collective memory store
+
+### 📦 Package Optimization
+- **Reduced NPM Package Size by 31%**:
+  - Excluded unnecessary `bin/claude-flow-node-pkg` binary (45MB) from npm package
+  - Package size reduced from 58MB to 40MB
+  - Binary is only needed for standalone distribution, not for npm/npx users
+  - Updated package.json files field to exclude the precompiled binary
+
+### 🛠️ Technical Improvements
+- **Database Consistency**: Aligned memory retrieval across hive mind commands
+- **Memory Search**: Direct SQLite queries for better performance and accuracy
+
 ## [2.0.0-alpha.83] - 2025-02-01
 
 ### 🔧 Bug Fixes

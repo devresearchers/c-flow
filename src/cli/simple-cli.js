@@ -26,8 +26,7 @@ import { spawn } from 'child_process';
 import process from 'process';
 import readline from 'readline';
 import { getMainHelp, getCommandHelp, getStandardizedCommandHelp } from './help-text.js';
-
-const VERSION = '2.0.0-alpha.83';
+import { VERSION } from '../core/version.js';
 
 // Legacy agent type mapping for backward compatibility
 const LEGACY_AGENT_MAPPING = {
@@ -67,7 +66,7 @@ function printLegacyHelp() {
 🌊 Claude-Flow v${VERSION} - Enterprise-Grade AI Agent Orchestration Platform
 
 🎯 ENTERPRISE FEATURES: Complete ruv-swarm integration with 90+ MCP tools, neural networking, and production-ready infrastructure
-⚡ ALPHA 83: Enhanced GitHub hooks with npx commands, improved checkpoint reliability, seamless CI/CD integration
+⚡ ALPHA 85: Advanced automation capabilities & stream-JSON chaining for multi-agent pipelines
 
 USAGE:
   claude-flow <command> [options]

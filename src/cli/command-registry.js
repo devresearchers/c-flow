@@ -2,6 +2,7 @@
 import process from 'process';
 import { initCommand } from './simple-commands/init/index.js';
 import { memoryCommand } from './simple-commands/memory.js';
+import { memoryConsolidationCommand } from './simple-commands/memory-consolidation.js';
 import { sparcCommand } from './simple-commands/sparc.js';
 import { agentCommand } from './simple-commands/agent.js';
 import { taskCommand } from './simple-commands/task.js';
@@ -108,6 +109,32 @@ First-time users should run: npx claude-flow@latest init --sparc`,
       'memory stats',
       'memory export backup.json',
     ],
+  });
+
+  commandRegistry.set('memory-consolidate', {
+    handler: memoryConsolidationCommand,
+    description: 'Consolidate fragmented memory stores into unified database',
+    usage: 'memory-consolidate <command> [options]',
+    examples: [
+      'memory-consolidate scan                # Scan for all memory stores',
+      'memory-consolidate plan                # Create consolidation plan',
+      'memory-consolidate execute --force     # Execute consolidation',
+      'memory-consolidate report              # Generate report',
+    ],
+    details: `
+Memory Consolidation Features:
+  • Discovers all memory storage locations (JSON & SQLite)
+  • Creates automatic backups before consolidation
+  • Merges all stores into unified SQLite database
+  • Optimizes with indices for better performance
+  • Maintains backward compatibility
+  
+Benefits:
+  • Single source of truth for all memory data
+  • Improved query performance with indices
+  • Reduced disk fragmentation
+  • Easier backup and restore
+  • Cross-session persistence`,
   });
 
   commandRegistry.set('sparc', {
@@ -411,20 +438,30 @@ Helps with performance optimization, cost management, and resource allocation.`,
 
   commandRegistry.set('automation', {
     handler: automationAction,
-    description: 'Intelligent agent and workflow management',
+    description: 'Intelligent agent and workflow management with MLE-STAR and Claude integration',
     usage: 'automation <command> [options]',
     examples: [
       'automation auto-agent --task-complexity enterprise --swarm-id swarm-123',
       'automation smart-spawn --requirement "web-development" --max-agents 8',
       'automation workflow-select --project-type api --priority speed',
+      'automation run-workflow my-workflow.json --claude --non-interactive',
+      'automation mle-star --dataset data/train.csv --target price --claude',
     ],
     details: `
 Automation commands:
   • auto-agent: Automatically spawn optimal agents based on task complexity
   • smart-spawn: Intelligently spawn agents based on specific requirements
   • workflow-select: Select and configure optimal workflows for project types
+  • run-workflow: Execute workflows from JSON/YAML files with Claude integration
+  • mle-star: Run MLE-STAR Machine Learning Engineering workflow (flagship)
   
-Provides optimal resource allocation and intelligent agent selection.`,
+New features:
+  • Claude CLI integration for actual execution
+  • MLE-STAR methodology for ML engineering
+  • Non-interactive mode for CI/CD integration
+  • Comprehensive workflow templates
+  
+Provides optimal resource allocation, intelligent agent selection, and complete automation workflows.`,
   });
 
   commandRegistry.set('coordination', {

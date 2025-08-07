@@ -2,7 +2,7 @@
 import { printSuccess, printError, printWarning, exit } from '../../utils.js';
 import { existsSync } from 'fs';
 import process from 'process';
-import { spawn, execSync as execSyncOriginal } from 'child_process';
+import { spawn, execSync } from 'child_process';
 import { promisify } from 'util';
 
 // Helper to replace Deno.Command
@@ -54,6 +54,7 @@ import {
   createHelperScript,
   COMMAND_STRUCTURE,
 } from './templates/enhanced-templates.js';
+import { createOptimizedSparcClaudeMd } from './templates/claude-md.js';
 import { getIsolatedNpxEnv } from '../../../utils/npx-isolated-cache.js';
 import { updateGitignore, needsGitignoreUpdate } from './gitignore-updater.js';
 import {
@@ -1047,10 +1048,10 @@ async function enhancedClaudeFlowInit(flags, subArgs = []) {
 
     // Create CLAUDE.md
     if (!dryRun) {
-      await fs.writeFile(`${workingDir}/CLAUDE.md`, createEnhancedClaudeMd(), 'utf8');
-      printSuccess('✓ Created CLAUDE.md (Claude Flow v2.0.0)');
+      await fs.writeFile(`${workingDir}/CLAUDE.md`, createOptimizedSparcClaudeMd(), 'utf8');
+      printSuccess('✓ Created CLAUDE.md (Claude Flow v2.0.0 - Optimized)');
     } else {
-      console.log('[DRY RUN] Would create CLAUDE.md (Claude Flow v2.0.0)');
+      console.log('[DRY RUN] Would create CLAUDE.md (Claude Flow v2.0.0 - Optimized)');
     }
 
     // Create .claude directory structure
